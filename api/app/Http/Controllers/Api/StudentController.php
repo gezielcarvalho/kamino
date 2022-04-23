@@ -15,7 +15,10 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json([
+            'status'=>200,
+            'students'=> Student::all()
+        ]);
     }
 
     /**
@@ -66,9 +69,12 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function edit(Student $student)
+    public function edit(Student $student, $id)
     {
-        //
+        return response()->json([
+            'status'=>200,
+            'student'=> $student->find($id)
+        ]);
     }
 
     /**
@@ -78,9 +84,18 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Student $student)
+    public function update(Request $request, Student $student, $id)
     {
-        //
+        $sudentToUpdate = $student->find($id);
+        $sudentToUpdate->name = $request->input('name');
+        $sudentToUpdate->course = $request->input('course');
+        $sudentToUpdate->email = $request->input('email');
+        $sudentToUpdate->phone = $request->input('phone');
+        $sudentToUpdate->save();
+        return response()->json([
+            'status'=>200,
+            'message'=>'Student updated successfully'
+        ]);
     }
 
     /**
