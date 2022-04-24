@@ -15,9 +15,19 @@ class Student extends Component {
             this.setState({
                 students: res.data.students,
                 loading: false
-            })
+            });
         }
 
+    }
+
+    async deleteStudent(e,id) {
+        const originControl = e.currentTarget;
+        originControl.innerText = "Deleting...";
+        console.log(id);
+        const res = await axios.delete(`http://localhost:8000/api/delete-student/${id}`);
+        if (res.status === 200) {
+            originControl.closest('tr').remove();
+            }
     }
 
     render() {
@@ -29,7 +39,7 @@ class Student extends Component {
             student_HTML_TABLE =
                 this.state.students.map((item) => {
                     return (
-                        <tr>
+                        <tr id={ item.id }>
                             <td>{item.id}</td>
                             <td>{item.name}</td>
                             <td>{item.course}</td>
@@ -41,9 +51,7 @@ class Student extends Component {
                                 </Link>
                             </td>
                             <td>
-                                <Link to={`/delete-student/${item.id}`}
-                                    className="btn btn-danger btn-sm">Delete
-                                </Link>
+                                <button onClick={(e)=> this.deleteStudent(e,item.id)} className="btn btn-danger btn-sm">Delete</button>
                             </td>
                         </tr>
                     )

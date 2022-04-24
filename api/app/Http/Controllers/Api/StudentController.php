@@ -86,12 +86,12 @@ class StudentController extends Controller
      */
     public function update(Request $request, Student $student, $id)
     {
-        $sudentToUpdate = $student->find($id);
-        $sudentToUpdate->name = $request->input('name');
-        $sudentToUpdate->course = $request->input('course');
-        $sudentToUpdate->email = $request->input('email');
-        $sudentToUpdate->phone = $request->input('phone');
-        $sudentToUpdate->save();
+        $studentToUpdate = $student->find($id);
+        $studentToUpdate->name = $request->input('name');
+        $studentToUpdate->course = $request->input('course');
+        $studentToUpdate->email = $request->input('email');
+        $studentToUpdate->phone = $request->input('phone');
+        $studentToUpdate->save();
         return response()->json([
             'status'=>200,
             'message'=>'Student updated successfully'
@@ -104,8 +104,13 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Student $student)
+    public function destroy(Student $student, $id)
     {
-        //
+        $studentToDelete = $student->find($id);
+        $studentToDelete->delete();
+        return response()->json([
+            'status'=>200,
+            'message'=>'Student deleted successfully'
+        ]);
     }
 }

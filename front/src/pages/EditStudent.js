@@ -22,10 +22,12 @@ class EditStudent extends Component {
 
     async componentDidMount() {
 
+        document.getElementById('updateBtn').innerText = "Loading..."
         const studentId = this.props.match.params.id;
         const res = await axios.get(`http://localhost:8000/api/edit-student/${studentId}`);
         if (res.status === 200) {
             this.setState({...res.data.student});
+            document.getElementById('updateBtn').innerText = "Update"
         }
     }
 
@@ -37,9 +39,11 @@ class EditStudent extends Component {
 
     updateStudent = async (e) => {
         e.preventDefault();
+        document.getElementById('updateBtn').innerText = "Updating..."
         const studentId = this.props.match.params.id;
         const res = await axios.put(`http://localhost:8000/api/update-student/${studentId}`, this.state);
         console.log(res.data.message);
+        document.getElementById('updateBtn').innerText = "Update"
 
     }
 
@@ -74,8 +78,7 @@ class EditStudent extends Component {
                                         <input type="text" name="phone" value={this.state.phone} onChange={this.handleInput} className="form-control" />
                                     </div>
                                     <div className='form-group mb-3'>
-
-                                        <button type="submit" className="btn btn-primary">Update</button>
+                                        <button id="updateBtn" type="submit" className="btn btn-primary">Update</button>
                                     </div>
                                 </form>
                             </div>
