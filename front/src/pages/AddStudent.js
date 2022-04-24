@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import swal from 'sweetalert';
 
 class AddStudent extends Component {
 
@@ -19,18 +20,27 @@ class AddStudent extends Component {
 
     saveStudent = async (e) => {
         e.preventDefault();
-
+        const originControl = document.getElementById('saveBtn');
+        originControl.innerText = "Saving...";
         const res = await axios.post('http://localhost:8000/api/add-student', this.state);
         if (res.data.status === 200) {
 
-            this.setState({
+            swal({
+                title: "Success!",
+                text: res.data.message,
+                icon: "success",
+                button: "Ok",
+              });
+              originControl.innerText = "Save";
+              this.setState({
                 name: '',
                 course: '',
                 email: '',
                 phone: '',
             });
+            
         }
-        console.log(res.data.message);
+        
 
     }
 
@@ -66,7 +76,7 @@ class AddStudent extends Component {
                                     </div>
                                     <div className='form-group mb-3'>
 
-                                        <button type="submit" className="btn btn-primary">Save</button>
+                                        <button id="saveBtn" type="submit" className="btn btn-primary">Save</button>
                                     </div>
                                 </form>
                             </div>

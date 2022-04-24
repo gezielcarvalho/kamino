@@ -23,7 +23,6 @@ class Student extends Component {
     async deleteStudent(e,id) {
         const originControl = e.currentTarget;
         originControl.innerText = "Deleting...";
-        console.log(id);
         const res = await axios.delete(`http://localhost:8000/api/delete-student/${id}`);
         if (res.status === 200) {
             originControl.closest('tr').remove();
